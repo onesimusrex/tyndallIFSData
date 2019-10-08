@@ -1,0 +1,7 @@
+
+
+[DIVISION] + [00 11 22 (six digits/ two spaces)] + space + title // 
+    23 00 00 (6 digits two spaces)
+        HVAC PIPING AND PUMPS (all caps title)
+            23 00 00 (number format)
+                • (bullet)
