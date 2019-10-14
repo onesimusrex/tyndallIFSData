@@ -6,7 +6,7 @@ nlu = require('./nlu.js');
 
 //returns patterns that matche 6 digit csi code and document header
 var csiPattern = /([\n][\d]{2}[\s][\d]{2}[\s][\d]{2})/gm;
-var headerPattern = /Design Guide \| Working Draft\s*\w*\s*\d*\s*\d*\s*/gm
+var headerPattern = /IFS Design Guide Appendix \| Rough Draft\s*\w*\s*\d*\s*\d*\s*/gm
 
 //returns array of all csi codes in ifs
 // var result = str.match(regex);
