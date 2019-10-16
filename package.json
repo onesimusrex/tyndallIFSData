@@ -11,7 +11,7 @@
     "express": "~4.16.0",
     "hjs": "~0.0.6",
     "http-errors": "~1.6.2",
-    "ibm-watson": "^5.0.0",
+    "ibm-watson": "^5.1.0",
     "morgan": "~1.9.0",
     "superagent": "^5.1.0"
   }
