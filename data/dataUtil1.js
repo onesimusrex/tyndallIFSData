@@ -50,6 +50,7 @@ for (i=0;i<words.length;i=i+2){
         title: text[0],
         body: body
     })
+    //delete redundant heading text
     heading = GetHeadings(body, divisionHeading)
     if (heading){
         data.push(heading);
@@ -107,11 +108,13 @@ function GetKeywordRelevance(_text, num){
             }
         }
     }
-
+    var ibmSendTime = new Date() 
+    console.log("send time: " +ibmSendTime.toString())
     naturalLanguageUnderstanding.analyze(analyzeParams)
         .then(analysisResults => {
-            console.log(JSON.stringify(analysisResults.result, null, 2))
-            // AddNlpFeature(analysisResults.result);
+            
+            // console.log(JSON.stringify(analysisResults.result, null, 2))
+            console.log(AddNlpFeature(analysisResults.result));
             // return analysisResults.result;
         })
         .catch(err => {
@@ -120,32 +123,35 @@ function GetKeywordRelevance(_text, num){
 }
 
 function AddNlpFeature(_analysisResults){
+    var ibmReturnTime = new Date() 
+    console.log("send time: " +ibmReturnTime.toString())    
     nlpData = {};
-    featureTypes = ["keywords", "entities", "concepts"]
+    featureTypes = ["keywords", /*"entities",*/ "concepts"]
+    // console.log(_analysisResults["keywords"])
     for (var i=0; i<featureTypes.length; i++){
         var nlpType = nlpData[featureTypes[i]] = []
-        console.log(nlpType)
+        // console.log(nlpType)
         var ft = featureTypes[i]
-        for (var j=0; j<_analysisResults["keywords"]; j++){
-        //     var featureItem = _analysisResults[featureTypes[i]][j];
-        //     var tempObj = {
-        //         text: featureItem.text,
-        //         relevance: featureItem.relevance,
+        for (var j=0; j<_analysisResults[featureTypes[i]].length; j++){
+            var featureItem = _analysisResults[featureTypes[i]][j];
+            var tempObj = {
+                text: featureItem.text,
+                relevance: featureItem.relevance,
                 
-        //     }
-        //     if (featureTypes[i] == "entities"){
-        //         tempObj["type"] = featureItem.type
-        //         tempObj["count"] = featureItem.count
-        //         tempObj["mentions"] = []
-        //         for(var k=0; k<featureItem.mentions.length; k++){
-        //             tempObj["mentions"].push({
-        //                 text: featureItem.mentions[k].text,
-        //                 location: [featureItem.mentions[k].location[0], featureItem.mentions[k].location[1]],
-        //                 confidence: featureItem.mentions[k].confidence
-        //             })
-        //         }
-        //     }
-        //     nlpType.push(tempObj)
+            }
+            if (featureTypes[i] == "entities"){
+                tempObj["type"] = featureItem.type
+                tempObj["count"] = featureItem.count
+                tempObj["mentions"] = []
+                for(var k=0; k<featureItem.mentions.length; k++){
+                    tempObj["mentions"].push({
+                        text: featureItem.mentions[k].text,
+                        location: [featureItem.mentions[k].location[0], featureItem.mentions[k].location[1]],
+                        confidence: featureItem.mentions[k].confidence
+                    })
+                }
+            }
+            nlpType.push(tempObj)
         }
     }
     return nlpData;
@@ -154,7 +160,7 @@ function AddNlpFeature(_analysisResults){
 for (var i=0; i<data.length; i++){
     if (data[i].csi == '08 71 00'){
         console.log(data[i].csi + '\n' + data[i].title + '\n' + data[i].body)
-        GetKeywordRelevance(data[i].body, 3);
+        GetKeywordRelevance(data[i].body, 70);
     }
     
 }
